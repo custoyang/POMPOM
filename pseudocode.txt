@@ -1,0 +1,20 @@
+class PillOrganizingMachine:
+	function sense_pills:
+		Sense pills, activate camera
+	
+	function identify_pills:
+		Detect type of pill in FOV
+	
+	function sort_pills:
+		Sort pill into respective bin
+
+
+class POMApp:
+	function dispense_pills:
+		Release pills to user
+	
+	function set_dispense_time:
+		Set time for dispensing pills
+	
+	function alarm:
+		Alarm user that pills are dispensed
