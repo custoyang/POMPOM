@@ -1,27 +1,54 @@
-// We create a flask application as our webapp
+// Pseudocode for initializing a Flask application
 
-Initialize a Flask application
+// Define a route for the home screen with a login form
 
-
-// Define a route to display the form
-
-Define route "/form" with GET method
-  Serve a HTML form that allows users to input pill data for the four compartments
-    - Each compartment has fields for Pill Name, Pill Type, and Distribution Time
+Define route "/" with method GET
+  Serve an HTML form for login
+    - Includes fields for username and password
+    - Submit button for login
 
 
-// Define a route to handle form submission
+// Define a route to handle login submission
 
-Define route "/submit" with POST method
-  Retrieve pill data from the form for each compartment
-  Open or create a text file in append mode
-    For each compartment from 1 to 4:
-      Format the pill data for the compartment into a string
-      Write the formatted data to the text file
-  Close the text file
-  Redirect to the form with a success message or to a confirmation page
+Define route "/login" with method POST
+  Retrieve username and password from the login form
+  Check if the username and password are correct
+    If credentials are valid:
+      Start a session for the user
+      Redirect to the "/form" route to input pill data
+    Else:
+      Redirect back to home with an error message
+
+
+// Define a route to display the pill data input form (requires login)
+
+Define route "/form" with method GET
+  Check if a user session exists
+    If session exists:
+      Serve the HTML form for entering pill data for four compartments
+    Else:
+      Redirect to home screen with a message to log in
+
+
+// Define a route to handle form submission (requires login)
+
+Define route "/submit" with method POST
+  Check if a user session exists
+    If session exists:
+      Retrieve and process pill data from the form as previously described
+      Write data to a text file
+      Redirect to the form with a success message
+    Else:
+      Redirect to home screen with a message to log in
+
+
+// Define a route for user logout
+
+Define route "/logout" with method GET
+  End the user session
+  Redirect to home screen with a message confirming logout
 
 
 // Run the Flask application
 
-Set application to run on host '127.0.0.1' and port 8000 with debug enabled
+Set application to run on host '127.0.0.1' and port 5000
