@@ -7,3 +7,10 @@ HTML Form ("input_form.html")
     - A text input for Pill Type
     - A time input for Distribution Time
   - A submit button to post the form data
+
+Login Form ("index.html")
+  - Form action should point to "/login"
+  - Includes:
+    - A text input for the username
+    - A password input for the password
+  - A submit button to send the login request
