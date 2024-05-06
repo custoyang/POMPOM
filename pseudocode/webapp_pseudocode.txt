@@ -1,0 +1,27 @@
+// We create a flask application as our webapp
+
+Initialize a Flask application
+
+
+// Define a route to display the form
+
+Define route "/form" with GET method
+  Serve a HTML form that allows users to input pill data for the four compartments
+    - Each compartment has fields for Pill Name, Pill Type, and Distribution Time
+
+
+// Define a route to handle form submission
+
+Define route "/submit" with POST method
+  Retrieve pill data from the form for each compartment
+  Open or create a text file in append mode
+    For each compartment from 1 to 4:
+      Format the pill data for the compartment into a string
+      Write the formatted data to the text file
+  Close the text file
+  Redirect to the form with a success message or to a confirmation page
+
+
+// Run the Flask application
+
+Set application to run on host '127.0.0.1' and port 8000 with debug enabled

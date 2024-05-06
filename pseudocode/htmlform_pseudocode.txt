@@ -1,0 +1,9 @@
+// This is our HTML form where we will be taking input data about the pill
+
+HTML Form ("input_form.html")
+  - The form should have fields grouped into four sets, one for each compartment
+  - Each group (fieldset) includes:
+    - A text input for Pill Name
+    - A text input for Pill Type
+    - A time input for Distribution Time
+  - A submit button to post the form data

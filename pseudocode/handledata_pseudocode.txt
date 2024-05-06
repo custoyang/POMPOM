@@ -1,0 +1,11 @@
+// This is for when we want to store data locally about the pills
+
+Form Submission Handling
+  - On receiving the POST request:
+    - Extract data from the form using field names like 'comp1_name', 'comp1_type', 'comp1_time', etc.
+    - Open the 'pill_data.txt' file in append mode
+    - For each compartment:
+      - Create a formatted string containing the name, type, and distribution time
+      - Append this string to the file
+    - Close the file after writing
+    - Redirect the user back to the form or to a success page, confirming the data submission
