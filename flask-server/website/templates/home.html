@@ -1,11 +1,19 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
 
-{% block title %}Home{% endblock %}
-
-{% block content %}
-<h1 align="center"></h1>
+<h1 align="center">Pills</h1>
+<ul class="list-group list-group-flush" id="pills">
+    {% for pill in user.pills %}
+    <li class="list-group-item">
+        {{ pill.data }}
+        <button type="button" class="close" onClick="deletePill({{ pill.id }})">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </li>
+    {% endfor %}
+</ul>
 <form method="POST">
     <textarea name="pill" id="pill" class="form-control"></textarea>
+    <br />
     <div align="center">
         <button type="submit" class="btn btn-primary">Add Pill</button>
     </div>
