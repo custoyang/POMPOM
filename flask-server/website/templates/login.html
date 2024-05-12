@@ -11,7 +11,7 @@
             </strong>
             <img style="width: 50px; display: inline; padding-bottom: 10px;" src="https://media.discordapp.net/attachments/1239019889541513317/1239020375002841170/pomlogo.png?ex=66416725&is=664015a5&hm=94d19f018b0589ae8be2312d479423847c98e5c40fb9ca62456f4c20c8aab65f&=&format=webp&quality=lossless&width=422&height=314" alt="POM logo">
         </h1>
-        <div class="form-group">
+        <div class="form-group" >
             <label for="email">Email Address</label>
             <input 
                 type="email" 
@@ -32,7 +32,7 @@
             />
         </div>
         <div style="text-align: center;">
-            <button type="submit" class="btn btn-primary" style="background-color: #6d935d; margin-bottom: 20px">Login</button>
+            <button type="submit" class="btn btn-primary">Login</button>
         </div>
         <h3 align="center">Don't have an account? <a href="/sign-up">Register!</a></h3>
     </form>
@@ -63,10 +63,23 @@
         color: #4c7642;
     }
 
+    button[type="submit"] {
+        background-color: #6d935d; 
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        margin-bottom: 20px;
+        margin-top: 15px;
+        cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #daaf4c;
+    }
+
 </style>
 
 <script>
-    // Apply the class to the body element
     document.body.classList.add('login-page-body');
 </script>
 {% endblock %}
