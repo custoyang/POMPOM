@@ -1,7 +1,10 @@
-{% extends "base_home.html" %} {% block title %}Home{% endblock %} {% block content %}
-
+{% extends "base_home.html" %} 
+{% block title %}Home{% endblock %} 
+{% block content %}
 <body>
     <div class="grid-container">
+        <div class="grid-item">Item 1</div>
+        <div class="grid-item">Item 2</div>
         <div class="grid-item">
             <ul class="list-group list-group-flush" id="pills">
                 {% for pill in user.pills %}
@@ -13,19 +16,62 @@
                 </li>
                 {% endfor %}
             </ul>
-            <form method="POST">
-                <textarea name="pill" id="pill" class="form-control"></textarea>
-                <br />
-                <div align="center">
-                    <button type="submit" class="btn btn-primary">Add Pill</button>
-                </div>
-            </form>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPillModal">Add Pill</button>
         </div>
-
-        <div class="grid-item">Item 2</div>
-        <div class="grid-item">Item 3</div>
         <div class="grid-item">Item 4</div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addPillModal" tabindex="-1" role="dialog" aria-labelledby="addPillModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPillModalLabel">Add Pill</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addPillForm">
+                        <div class="form-group">
+                            <label for="pill">Pill Data:</label>
+                            <textarea class="form-control" id="pill" name="pill"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submitPill">Submit</button>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
+<script>
+    // Handle submission of the form within the modal
+    document.getElementById('submitPill').addEventListener('click', function() {
+        // Get the pill data from the form
+        var pillData = document.getElementById('pill').value;
+
+        // Send a request to add the pill (you can use fetch or any other method)
+        fetch('/add-pill', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ pillData: pillData })
+        }).then(function(response) {
+            if (response.ok) {
+                // If the request is successful, reload the page to reflect changes
+                window.location.reload();
+            } else {
+                // Handle errors
+                console.error('Failed to add pill');
+            }
+        }).catch(function(error) {
+            console.error('Error:', error);
+        });
+    });
+</script>
 {% endblock %}
