@@ -25,6 +25,30 @@
 				text-align: center;
 			}
 
+            .grid-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr 1fr;
+                gap: 20px; /* Spaces between grid items */
+                padding: 20px; /* Padding around the grid */
+                height: 80vh; /* Optional: Adjusts the height of the grid to fill the viewport */
+            }
+            
+            .grid-item {
+                background-color: #E8EBE6; /* Light grey background for each item */
+                display: flex;
+                justify-content: center; /* Centers content horizontally */
+                align-items: center; /* Centers content vertically */
+                font-size: 20px; /* Larger text size for visibility */
+                border-radius: 78px;
+            }
+
+            .navbar {
+                border-radius: 30px;
+                background-image: linear-gradient(to bottom, #93B386 70%, #678D56 30%);
+            }
+            
+
 		</style>
 		<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 		<link href='https://fonts.googleapis.com/css?family=Work Sans' rel='stylesheet'>
@@ -43,6 +67,27 @@
 		<title>{% block title %}Home{% endblock %}</title>
 	</head>
 	<body>
+    <nav class="navbar navbar-expand-lg py-5 navbar-light" style="background-color: #b6d7a8;">
+		<button
+			class="navbar-toggler"
+			type="button"
+			data-toggle="collapse"
+			data-target="#navbar"
+		>
+		<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbar">
+			<div class="navbar-nav">
+				{% if user.is_authenticated %}
+					<a class="nav-item nav-link" id="home" href="/">Home</a>
+					<a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+				{% else %}
+					<a class="nav-item nav-link" id="login" href="/login">Login</a>
+					<a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+				{% endif %}
+			</div>
+		</div>
+    </nav>
 
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %} {% for category, message in messages %} {% if category ==

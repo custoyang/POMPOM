@@ -19,7 +19,6 @@ def home():
             new_pill = Pill(data=pill, user_id=current_user.id)  #providing the schema for the pill 
             db.session.add(new_pill) # adding the pill to the database 
             db.session.commit()
-            flash('Pill added!', category='success')
 
     return render_template("home.html", user=current_user)
 
