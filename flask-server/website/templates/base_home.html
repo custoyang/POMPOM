@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<style>
-			.center-container {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-			}
+        <style>
+            .center-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
 
-			h1 {
-				color: #000;
-				font-family: "Work Sans";
-				font-size: 49px;
-				font-style: normal;
-				font-weight: 600;
-				line-height: normal;
-			}
+            h1 {
+                color: #000;
+                font-family: "Work Sans";
+                font-size: 49px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+            }
 
-			.login-ft {
-				font-family: "Montserrat";
-				text-align: center;
-			}
+            .login-ft {
+                font-family: "Montserrat";
+                text-align: center;
+            }
 
             .grid-container {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: 1fr 1fr;
-                gap: 20px; /* Spaces between grid items */
+                gap: 40px; /* Spaces between grid items */
                 padding: 20px; /* Padding around the grid */
                 height: 80vh; /* Optional: Adjusts the height of the grid to fill the viewport */
             }
@@ -44,97 +44,111 @@
             }
 
             .navbar {
-                border-radius: 30px;
+                border-radius: 0 0 50px 50px;
                 background-image: linear-gradient(to bottom, #93B386 70%, #678D56 30%);
             }
-            
 
-		</style>
-		<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-		<link href='https://fonts.googleapis.com/css?family=Work Sans' rel='stylesheet'>
-		<link
-			rel="stylesheet"
-			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-			crossorigin="anonymous"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-			crossorigin="anonymous"
-		/>
+            button[type="submit"] {
+            background-color: #6d935d; 
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            margin-top: 15px;
+            cursor: pointer;
+            width: 150px;
+            }
 
-		<title>{% block title %}Home{% endblock %}</title>
-	</head>
-	<body>
+            button[type="submit"]:hover {
+                background-color: #daaf4c;
+            }
+
+        </style>
+        <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Work Sans' rel='stylesheet'>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            crossorigin="anonymous"
+        />
+
+        <title>{% block title %}Home{% endblock %}</title>
+    </head>
+    <body>
     <nav class="navbar navbar-expand-lg py-5 navbar-light" style="background-color: #b6d7a8;">
-		<button
-			class="navbar-toggler"
-			type="button"
-			data-toggle="collapse"
-			data-target="#navbar"
-		>
-		<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbar">
-			<div class="navbar-nav">
-				{% if user.is_authenticated %}
-					<a class="nav-item nav-link" id="home" href="/">Home</a>
-					<a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-				{% else %}
-					<a class="nav-item nav-link" id="login" href="/login">Login</a>
-					<a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
-				{% endif %}
-			</div>
-		</div>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbar"
+        >
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <div class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <a class="nav-item nav-link" id="home" href="/">Home</a>
+                    <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                {% else %}
+                    <a class="nav-item nav-link" id="login" href="/login">Login</a>
+                    <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
     </nav>
 
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %} {% for category, message in messages %} {% if category ==
     'error' %}
     <div class="alert alert-danger alter-dismissable fade show" role="alert">
-		{{ message }}
-		<button type="button" class="close" data-dismiss="alert">
-			<span aria-hidden="true">&times;</span>
-		</button>
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     {% else %}
     <div class="alert alert-success alter-dismissable fade show" role="alert">
-		{{ message }}
-		<button type="button" class="close" data-dismiss="alert">
-			<span aria-hidden="true">&times;</span>
-		</button>
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     {% endif %} {% endfor %} {% endif %} {% endwith %}
 
     <div class="container">{% block content %} {% endblock %}</div>
     <script
-		src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-		crossorigin="anonymous"
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"
     ></script>
     <script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-		crossorigin="anonymous"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"
     ></script>
     <script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-		crossorigin="anonymous"
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"
     ></script>
 
 {% block javascript %}
-	<script type="text/javascript">
-		function deletePill(pillId) {
-	fetch("/delete-pill", {
-		method: "POST",
-		body: JSON.stringify({ pillId: pillId }),
-	}).then((_res) => {
-		window.location.href = "/";
-	});
-	}
+    <script type="text/javascript">
+        function deletePill(pillId) {
+    fetch("/delete-pill", {
+        method: "POST",
+        body: JSON.stringify({ pillId: pillId }),
+    }).then((_res) => {
+        window.location.href = "/";
+    });
+    }
 </script>
 {% endblock %}
-	</body>
+    </body>
 </html>
