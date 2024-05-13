@@ -4,9 +4,15 @@ from sqlalchemy.sql import func
 
 class Pill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.String(10000))
-    date = db.Column(db.DateTime(timezone=True), default=func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    size = db.Column(db.String(2), nullable=False)
+    amount = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    alt_name = db.Column(db.String(100))
+    dispense_time = db.Column(db.Time)  # Assuming dispense time is a time field
+    frequency = db.Column(db.String(20), nullable=False)  # Frequency dropdown options like daily, biweekly, etc.
+    start_date = db.Column(db.Date, nullable=False)  # Start date of dispensing
+    end_date = db.Column(db.Date)  # End date of dispensing (can be nullable)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

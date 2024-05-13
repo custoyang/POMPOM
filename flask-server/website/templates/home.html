@@ -21,31 +21,102 @@
         <div class="grid-item">Item 4</div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="addPillModal" tabindex="-1" role="dialog" aria-labelledby="addPillModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addPillModalLabel">Add Pill</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="addPillForm">
-                        <div class="form-group">
-                            <label for="pill">Pill Data:</label>
-                            <textarea class="form-control" id="pill" name="pill"></textarea>
+ <!-- Modal -->
+ <div class="modal fade rounded-modal popup" id="addPillModal" tabindex="-1" role="dialog" aria-labelledby="addPillModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg rounded-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="addPillModalLabel">Add New Medication</h5>
+            </div>
+            <div class="modal-body">
+                <form id="addPillForm">
+                    <div class="row" style="padding: 0 20px 0 20px;">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="pillId">Compartment Number:</label>
+                                <select class="form-control" id="pillId" name="pillId">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="submitPill">Submit</button>
-                </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="size">Pill Size:</label>
+                                <select class="form-control" id="size" name="size">
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="amount">Amount:</label>
+                                <input type="number" class="form-control" id="amount" name="amount">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 0 20px 0 20px;">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="altName">Alternate Name:</label>
+                                <input type="text" class="form-control" id="altName" name="altName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 0 20px 0 20px;">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="dispenseTime">Dispense Time:</label>
+                                <input type="time" class="form-control" id="dispenseTime" name="dispenseTime">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="frequency">Frequency:</label>
+                                <select class="form-control" id="frequency" name="frequency">
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Biweekly">Biweekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 0 20px 0 20px;">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="startDate">Start Date:</label>
+                                <input type="date" class="form-control" id="startDate" name="startDate">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="endDate">End Date:</label>
+                                <input type="date" class="form-control" id="endDate" name="endDate">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="background-color: #BD615B";>Cancel</button>
+                <button type="button" class="btn btn-primary" id="submitPill">Save</button>
             </div>
         </div>
     </div>
+</div>
+
 </body>
 
 <script>
@@ -55,7 +126,7 @@
         var pillData = document.getElementById('pill').value;
 
         // Send a request to add the pill (you can use fetch or any other method)
-        fetch('/add-pill', {
+        fetch('/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

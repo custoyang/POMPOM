@@ -11,41 +11,77 @@
                 align-items: center;
             }
 
-            h1 {
+            .popup-head {
                 color: #000;
                 font-family: "Work Sans";
-                font-size: 49px;
+                font-size: 20px;
                 font-style: normal;
-                font-weight: 600;
+                font-weight: 100;
                 line-height: normal;
+                text-align: center;
             }
 
-            .login-ft {
+            .popup {
                 font-family: "Montserrat";
-                text-align: center;
+                font-size: 15px;
             }
 
             .grid-container {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: 1fr 1fr;
-                gap: 40px; /* Spaces between grid items */
-                padding: 20px; /* Padding around the grid */
-                height: 80vh; /* Optional: Adjusts the height of the grid to fill the viewport */
+                gap: 40px;
+                padding: 20px;
+                height: 80vh;
             }
             
             .grid-item {
-                background-color: #E8EBE6; /* Light grey background for each item */
+                background-color: #E8EBE6;
                 display: flex;
-                justify-content: center; /* Centers content horizontally */
-                align-items: center; /* Centers content vertically */
-                font-size: 20px; /* Larger text size for visibility */
+                justify-content: center;
+                align-items: center;
+                font-size: 20px;
                 border-radius: 78px;
             }
 
             .navbar {
                 border-radius: 0 0 50px 50px;
                 background-image: linear-gradient(to bottom, #93B386 70%, #678D56 30%);
+            }
+
+            #pillId {
+                background-color: #CEDAC3;
+                color: #333;
+            }
+
+            #size {
+                background-color: #CEDAC3;
+                color: #333;
+            }
+
+            #frequency {
+                background-color: #CEDAC3;
+                color: #333;
+            }
+
+            #startDate {
+                background-color: #CEDAC3;
+                color: #333;
+            }
+
+            #endDate {
+                background-color: #CEDAC3;
+                color: #333;
+            }
+
+
+            #dispenseTime {
+                background-color: #CEDAC3;
+                color: #333;
+            }
+
+            #addPillModalLabel {
+                text-align: center;
             }
 
             button[type="button"] {
@@ -61,6 +97,17 @@
 
             button[type="button"]:hover {
                 background-color: #daaf4c;
+            }
+
+            button[type="button"]:active {
+                background-color: #6d935d; 
+            }   
+
+            
+            .rounded-modal .modal-content,
+            .rounded-modal .modal-dialog {
+                border-radius: 50px;
+                background-color: #E2E9DD;
             }
 
         </style>
