@@ -3,8 +3,14 @@
 {% block content %}
 <body>
     <div class="grid-container">
-        <div class="grid-item">Item 1</div>
-        <div class="grid-item">Item 2</div>
+        <div class="grid-item">
+            Profile
+            <img style="width: 50px; padding-left: 10px;" src="https://media.discordapp.net/attachments/1239019889541513317/1239429224776077322/man.png?ex=6642e3ea&is=6641926a&hm=01c85d2fbf389be2d7018b5da0f57690616cdfe528c783ae5fa6c654e5526f74&=&format=webp&quality=lossless&width=1024&height=1024">
+        </div>
+        <div class="grid-item">
+            Next Intake
+            <img style="width: 50px; padding-left: 10px;" src="https://media.discordapp.net/attachments/1239019889541513317/1239428413522186360/medicine.png?ex=6642e329&is=664191a9&hm=9ff0ec17da06f0a046227155aa5030eac61f5f7a20a97dba03a2e6b598ca60f6&=&format=webp&quality=lossless&width=1024&height=1024">
+        </div>
         <div class="grid-item">
             <ul class="list-group list-group-flush" id="pills">
                 {% for pill in user.pills %}
@@ -18,8 +24,13 @@
             </ul>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPillModal">Add Pill</button>
         </div>
-        <div class="grid-item">Item 4</div>
+        <div class="grid-item" id="calendar-container">
+            <!-- <div id="calendar"></div> -->
+            Calendar
+            <img style="width: 50px; padding-left: 10px;" src="https://media.discordapp.net/attachments/1239019889541513317/1239429986637582437/man_1.png?ex=6642e4a0&is=66419320&hm=9971eaa42e627303bb3e0875f0c089a661a79ad2b90f223077a8b3f2cf7165ef&=&format=webp&quality=lossless&width=1024&height=1024">
+        </div>
     </div>
+    
 
  <!-- Modal -->
  <div class="modal fade rounded-modal popup" id="addPillModal" tabindex="-1" role="dialog" aria-labelledby="addPillModalLabel" aria-hidden="true">
@@ -144,5 +155,18 @@
             console.error('Error:', error);
         });
     });
+</script>   
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+            start: 'dayGridMonth',
+            center: 'title',
+            end: 'prev,next'
+            },
+        });
+        calendar.render();
+        });
 </script>
 {% endblock %}
