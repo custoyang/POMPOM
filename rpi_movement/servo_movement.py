@@ -6,7 +6,7 @@ kit = ServoKit(channels=16)
 
 # Define channels for the servos
 channel_4 = 4
-channel_5 = 6
+channel_6 = 6
 
 def control_servo(channel, action):
     """Control the servo's movement."""
@@ -40,19 +40,20 @@ def main():
         control_servo(channel_4, "stop")
         time.sleep(1)  # Stop for 1 second
 
-        # Repeat the same for channel 5
-        control_servo(channel_5, "clockwise")
+        # Repeat the same for channel 6
+        control_servo(channel_6, "clockwise")
         time.sleep(2)
-        control_servo(channel_5, "stop")
+        control_servo(channel_6, "stop")
         time.sleep(1)
-        control_servo(channel_5, "counterclockwise")
+        control_servo(channel_6, "counterclockwise")
         time.sleep(2)
-        control_servo(channel_5, "stop")
+        control_servo(channel_6, "stop")
 
         print("Demo complete. Both servos returned to stop position.")
 
-    except Exception as e:
+    except KeyboardInterrupt as e:
         print(f"An error occurred: {e}")
+        control_servo(channel_4, 'stop')
 
 if __name__ == "__main__":
     main()
