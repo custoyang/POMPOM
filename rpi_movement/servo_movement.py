@@ -14,10 +14,10 @@ def control_servo(channel, action):
         # Stop the servo by sending a neutral pulse (about 90 degrees in standard servos)
         kit.servo[channel].angle = 90
     elif action == "clockwise":
-        # Rotate clockwise (you might need to adjust the value slightly less than 90)
+        # Rotate clockwise (we might adjust the value slightly less than 90)
         kit.servo[channel].angle = 85
     elif action == "counterclockwise":
-        # Rotate counterclockwise (you might need to adjust the value slightly more than 90)
+        # Rotate counterclockwise (we might adjust the value slightly more than 90)
         kit.servo[channel].angle = 95
 
     print(f"Servo on channel {channel} set to {action}.")
