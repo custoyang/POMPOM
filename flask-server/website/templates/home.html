@@ -4,14 +4,6 @@
 <body>
     <div class="grid-container">
         <div class="grid-item">
-            Profile
-            <img style="width: 50px; padding-left: 10px;" src="https://media.discordapp.net/attachments/1239019889541513317/1239429224776077322/man.png?ex=6642e3ea&is=6641926a&hm=01c85d2fbf389be2d7018b5da0f57690616cdfe528c783ae5fa6c654e5526f74&=&format=webp&quality=lossless&width=1024&height=1024">
-        </div>
-        <div class="grid-item">
-            Next Intake
-            <img style="width: 50px; padding-left: 10px;" src="https://media.discordapp.net/attachments/1239019889541513317/1239428413522186360/medicine.png?ex=6642e329&is=664191a9&hm=9ff0ec17da06f0a046227155aa5030eac61f5f7a20a97dba03a2e6b598ca60f6&=&format=webp&quality=lossless&width=1024&height=1024">
-        </div>
-        <div class="grid-item">
             <ul class="list-group list-group-flush" id="pills">
                 {% for pill in user.pills %}
                 <li class="list-group-item">
@@ -21,7 +13,24 @@
                     </button>
                 </li>
                 {% endfor %}
-            </ul>
+            </ul> 
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#patientInfoModal">Edit Info</button>
+        </div>
+        <div class="grid-item">
+            Next Intake
+            <img style="width: 50px; padding-left: 10px;" src="https://media.discordapp.net/attachments/1239019889541513317/1239428413522186360/medicine.png?ex=6642e329&is=664191a9&hm=9ff0ec17da06f0a046227155aa5030eac61f5f7a20a97dba03a2e6b598ca60f6&=&format=webp&quality=lossless&width=1024&height=1024">
+        </div>
+       <div class="grid-item">
+            <ul class="list-group list-group-flush" id="profiles">
+                {% for pill in user.pills %}
+                <li class="list-group-item">
+                    {{ pill.data }}
+                    <button type="button" class="close" onClick="deletePill({{ pill.id }})">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </li>
+                {% endfor %}
+            </ul> 
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPillModal">Add Pill</button>
         </div>
         <div class="grid-item" id="calendar-container">
@@ -115,6 +124,64 @@
                             <div class="form-group">
                                 <label for="endDate">End Date:</label>
                                 <input type="date" class="form-control" id="endDate" name="endDate">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="background-color: #BD615B";>Cancel</button>
+                <button type="button" class="btn btn-primary" id="submitPill">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade rounded-modal popup" id="patientInfoModal" tabindex="-1" role="dialog" aria-labelledby="addPillModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg rounded-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="PatientInfoModalLabel">Edit Patient Information</h5>
+            </div>
+            <div class="modal-body">
+                <form id="addPillForm">
+                    <div class="row" style="padding: 0 20px 0 20px;">
+                        <div class="col d-flex justify-content-center">
+                            <div class="profile-picture-container">
+                                <img src="https://media.discordapp.net/attachments/1239019889541513317/1239870185025044520/luis.png?ex=66447e97&is=66432d17&hm=2988cabe73b570d4db9323ddf3d334c3bba8e679c1acb9afc86298f28e42f991&=&format=webp&quality=lossless&width=490&height=700" alt="Profile Picture" class="profile-picture" id="profile-img">
+                                <div class="change-option">
+                                    <button class="btn btn-primary">Change Photo</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row" style="padding: 0 20px 0 20px;">
+                                <div class="form-group">
+                                    <label for="name">Full Name:</label>
+                                    <input type="text" class="form-control" id="name" name="name">
+                                </div>
+                            </div>
+                            <div class="row" style="padding: 0 20px 0 20px;">
+                                <div class="form-group">
+                                    <label for="name">Preferred Name:</label>
+                                    <input type="text" class="form-control" id="name" name="name">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 0 20px 0 20px;">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="statusDiagnosis">Patient Status/Diagnosis:</label>
+                                <input type="text" class="form-control" id="statusDiagnosis" name="statusDiagnosis">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 0 20px 0 20px;">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="physicianUpdates">Physician Updates:</label>
+                                <input type="text" class="form-control" id="physicianUpdates" name="physicianUpdates">
                             </div>
                         </div>
                     </div>

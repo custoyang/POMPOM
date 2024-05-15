@@ -126,6 +126,54 @@
                 align-items: center;
             }
 
+            .modal-header {
+                justify-content: center !important; // Override Bootstrap's justify-content
+                align-items: center; // Ensure vertical alignment is centered
+            }
+
+            .overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5); 
+                border-radius: 50%; 
+                opacity: 0; 
+                transition: opacity 0.3s ease;
+            }
+
+            .profile-picture-container {
+                position: relative;
+                display: inline-block;
+            }
+
+            .profile-picture {
+                width: 150px;
+                height: 150px;
+                border-radius: 50%; 
+                border: 3px solid #678D56; 
+                object-fit: cover; 
+                overflow: hidden; 
+            }
+
+            .change-option {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                opacity: 0; 
+                transition: opacity 0.3s ease; 
+            }
+
+            .profile-picture-container:hover .change-option {
+                opacity: 1; 
+            }
+
+            .profile-picture-container:hover .overlay {
+                opacity: 1; 
+            }
+
         </style>
         <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Work Sans' rel='stylesheet'>
