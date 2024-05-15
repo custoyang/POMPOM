@@ -158,13 +158,13 @@
                             <div class="row" style="padding: 0 20px 0 20px;">
                                 <div class="form-group">
                                     <label for="name">Full Name:</label>
-                                    <input type="text" class="form-control" id="name" name="name">
+                                    <input type="text" class="form-control" id="fullName" name="name">
                                 </div>
                             </div>
                             <div class="row" style="padding: 0 20px 0 20px;">
                                 <div class="form-group">
                                     <label for="name">Preferred Name:</label>
-                                    <input type="text" class="form-control" id="name" name="name">
+                                    <input type="text" class="form-control" id="prefName" name="name">
                                 </div>
                             </div>
                         </div>
@@ -189,7 +189,7 @@
             </div>
             <div class="modal-footer d-flex justify-content-center">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" style="background-color: #BD615B";>Cancel</button>
-                <button type="button" class="btn btn-primary" id="submitPill">Save</button>
+                <button type="button" class="btn btn-primary" id="submitProfile">Save</button>
             </div>
         </div>
     </div>
@@ -200,20 +200,28 @@
 <script>
     // Handle submission of the form within the modal
     document.getElementById('submitPill').addEventListener('click', function() {
-        // Get the pill data from the form
-        var pillData = document.getElementById('pill').value;
+        // Get the pill data from the form - adjust this part to match your form structure
+        var pillData = {
+            size: document.getElementById('size').value,
+            amount: document.getElementById('amount').value,
+            name: document.getElementById('name').value,
+            altName: document.getElementById('altName').value,
+            dispenseTime: document.getElementById('dispenseTime').value,
+            frequency: document.getElementById('frequency').value,
+            startDate: document.getElementById('startDate').value,
+            endDate: document.getElementById('endDate').value
+        };
 
-        // Send a request to add the pill (you can use fetch or any other method)
-        fetch('/', {
+        // Send a request to add the pill
+        fetch('/add_pill', { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ pillData: pillData })
+            body: JSON.stringify(pillData)
         }).then(function(response) {
             if (response.ok) {
-                // If the request is successful, reload the page to reflect changes
-                window.location.reload();
+                console.log('Pill added successfully');
             } else {
                 // Handle errors
                 console.error('Failed to add pill');
@@ -222,6 +230,8 @@
             console.error('Error:', error);
         });
     });
+</script>
+
 </script>   
 <script>
     document.addEventListener('DOMContentLoaded', function() {
