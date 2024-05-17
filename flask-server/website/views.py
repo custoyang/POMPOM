@@ -11,16 +11,6 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
-    # if request.method == 'POST': 
-    #     pill = request.form.get('pill') # Gets the pill from the HTML 
-
-    #     if len(pill) < 1:
-    #         flash('Pill is too short!', category='error') 
-    #     else:
-    #         new_pill = Pills(data=pill, user_id=current_user.id)  #providing the schema for the pill 
-    #         db.session.add(new_pill) # adding the pill to the database 
-    #         db.session.commit()
-
     return render_template("home.html", user=current_user)
 
 
@@ -40,6 +30,10 @@ def delete_pill():
 @views.route('/add_pill', methods=['POST'])
 def add_pill():
     if request.method == 'POST':
+        existing_entries_count = Pills.query.filter_by(user_id=session.get('userId')).count()
+        if existing_entries_count >= 4:
+            return jsonify({'error': 'Maximum number of pills reached.'})
+        
         data = request.json
         size = data['size']
         amount = data['amount']
