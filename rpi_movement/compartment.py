@@ -1,6 +1,5 @@
 from gpiozero import Servo
 import time
-import servo_movement
 
 class Compartment:
     def __init__(self, pin, pillCount, pill, frequency, size):
@@ -9,9 +8,10 @@ class Compartment:
         self.pill = pill
         self.frequency = frequency # in hours
         self.size = size
-        self.delay = 3.3
+        self.delay = 2.3
         self.speed = 0.025
         self.servo = Servo(self.pin)
+        self.servo.value = None
     
     def calibration(self, new_size):
         if self.size == new_size:
@@ -44,7 +44,7 @@ class Compartment:
             self.servo.value = self.speed
             time.sleep(self.delay * 0.25)
         elif self.size == 'S' and new_size == 'XL':
-            self..value = self.speed
+            self.servo.value = self.speed
             time.sleep(self.delay * 0.25)
         elif self.size == 'S' and new_size == 'L':
             self.servo.value = self.speed
@@ -52,6 +52,7 @@ class Compartment:
         elif self.size == 'S' and new_size == 'M':
             self.servo.value = self.speed
             time.sleep(self.delay * 0.75)
+        self.servo.value = None
 
   # Sets pill count
     def setPills(self, added):
