@@ -1,15 +1,11 @@
 from gpiozero import Servo
 import time
 
-delay = 3.3
+delay = 2.3
 speed = 0.025
-servo1 = Servo(12)
-servo2 = Servo(13)
-servo3 = Servo(18)
-servo4 = Servo(19)
 
-
-def dispense_pill(servo):
+def dispense_pill(servo_pin_number):
+    servo = Servo(servo_pin_number)
     servo.value = speed
     time.sleep(delay)
     servo.value = None
