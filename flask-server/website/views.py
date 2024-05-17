@@ -11,7 +11,8 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
-    return render_template("home.html", user=current_user)
+    current_day = datetime.now().strftime("%A, %B %d")
+    return render_template("home.html", user=current_user, current_day=current_day)
 
 
 @views.route('/delete-pill', methods=['POST'])

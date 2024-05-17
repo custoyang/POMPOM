@@ -4,16 +4,6 @@
 <body>
     <div class="grid-container">
         <div class="grid-item">
-            <ul class="list-group list-group-flush" id="pills">
-                {% for pill in user.pills %}
-                <li class="list-group-item">
-                    {{ pill.data }}
-                    <button type="button" class="close" onClick="deletePill({{ pill.id }})">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </li>
-                {% endfor %}
-            </ul> 
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#patientInfoModal">Edit Info</button>
         </div>
         <div class="grid-item">
@@ -24,7 +14,12 @@
             <ul class="list-group list-group-flush" id="profiles">
                 {% for pill in user.pills %}
                 <li class="list-group-item">
-                    {{ pill.data }}
+                    <strong> {{ pill.name }} </strong>
+                    {% if pill.alt_name %}
+                    ({{ pill.alt_name }})
+                    {% endif %}
+                    <br>
+                    Taken {{ pill.frequency }}: {{ pill.dispense_time }} PDT
                     <button type="button" class="close" onClick="deletePill({{ pill.id }})">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -137,113 +132,122 @@
     </div>
 </div>
 
-<div class="modal fade rounded-modal popup" id="patientInfoModal" tabindex="-1" role="dialog" aria-labelledby="addPillModalLabel" aria-hidden="true">
+<div class="modal fade rounded-modal popup" id="patientInfoModal" tabindex="-1" role="dialog" aria-labelledby="PatientInfoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg rounded-modal" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-center" id="PatientInfoModalLabel">Edit Patient Information</h5>
             </div>
             <div class="modal-body">
-                <form id="addPillForm">
-                    <div class="row" style="padding: 0 20px 0 20px;">
-                        <div class="col d-flex justify-content-center">
+                <form id="updateProfileForm" method="post" action="/update-profile" enctype="multipart/form-data">
+                    <div class="row" style="padding: 0 20px;">
+                        <!-- Profile Picture Upload -->
+                        <div class="col-md-4 d-flex justify-content-center">
                             <div class="profile-picture-container">
-                                <img src="https://media.discordapp.net/attachments/1239019889541513317/1239870185025044520/luis.png?ex=66447e97&is=66432d17&hm=2988cabe73b570d4db9323ddf3d334c3bba8e679c1acb9afc86298f28e42f991&=&format=webp&quality=lossless&width=490&height=700" alt="Profile Picture" class="profile-picture" id="profile-img">
-                                <div class="change-option">
-                                    <button class="btn btn-primary">Change Photo</button>
-                                </div>
+                                <img src="{% if current_user.profile_picture %}{{ url_for('static', filename=current_user.profile_picture) }}{% else %}{{ url_for('static', filename='default_profile.jpg') }}{% endif %}" alt="Profile Picture" class="profile-picture" id="profile-img">
+                                <input type="file" class="form-control-file" id="profile_picture" name="profile_picture">
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="row" style="padding: 0 20px 0 20px;">
-                                <div class="form-group">
-                                    <label for="name">Full Name:</label>
-                                    <input type="text" class="form-control" id="fullName" name="name">
-                                </div>
+                        <!-- Name fields -->
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="fullName">Full Name:</label>
+                                <input type="text" class="form-control" id="fullName" name="fullName">
                             </div>
-                            <div class="row" style="padding: 0 20px 0 20px;">
-                                <div class="form-group">
-                                    <label for="name">Preferred Name:</label>
-                                    <input type="text" class="form-control" id="prefName" name="name">
-                                </div>
+                            <div class="form-group">
+                                <label for="prefName">Preferred Name:</label>
+                                <input type="text" class="form-control" id="prefName" name="prefName">
                             </div>
+                            <!-- Additional fields as required -->
                         </div>
                     </div>
-                    <div class="row" style="padding: 0 20px 0 20px;">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="statusDiagnosis">Patient Status/Diagnosis:</label>
-                                <input type="text" class="form-control" id="statusDiagnosis" name="statusDiagnosis">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" style="padding: 0 20px 0 20px;">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="physicianUpdates">Physician Updates:</label>
-                                <input type="text" class="form-control" id="physicianUpdates" name="physicianUpdates">
-                            </div>
-                        </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="background-color: #BD615B";>Cancel</button>
-                <button type="button" class="btn btn-primary" id="submitProfile">Save</button>
             </div>
         </div>
     </div>
 </div>
 
+<div id="errorModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p id="errorMessage"></p>
+    </div>
+</div>
+  
+
 </body>
 
 <script>
-    // Handle submission of the form within the modal
-    document.getElementById('submitPill').addEventListener('click', function() {
-        // Get the pill data from the form - adjust this part to match your form structure
-        var pillData = {
-            size: document.getElementById('size').value,
-            amount: document.getElementById('amount').value,
-            name: document.getElementById('name').value,
-            altName: document.getElementById('altName').value,
-            dispenseTime: document.getElementById('dispenseTime').value,
-            frequency: document.getElementById('frequency').value,
-            startDate: document.getElementById('startDate').value,
-            endDate: document.getElementById('endDate').value
-        };
+    function addPillToList(pill) {
+    var list = document.getElementById('profiles');
+    var listItem = document.createElement('li');
+    listItem.className = 'list-group-item';
+    listItem.innerHTML = `
+        <strong> ${pill.name} </strong><br>
+        Taken ${pill.frequency}: ${pill.dispenseTime} PDT
+        <button type="button" class="close" onClick="deletePill(${pill.id})">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    `;
+    list.appendChild(listItem);
+}
 
-        // Send a request to add the pill
-        fetch('/add_pill', { 
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(pillData)
-        }).then(function(response) {
-            if (response.ok) {
-                console.log('Pill added successfully');
-            } else {
-                // Handle errors
-                console.error('Failed to add pill');
-            }
-        }).catch(function(error) {
-            console.error('Error:', error);
-        });
+document.getElementById('submitPill').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent any default action triggered by clicking the submit button
+
+    var pillData = {
+        size: document.getElementById('size').value,
+        amount: document.getElementById('amount').value,
+        name: document.getElementById('name').value,
+        altName: document.getElementById('altName').value,
+        dispenseTime: document.getElementById('dispenseTime').value,
+        frequency: document.getElementById('frequency').value,
+        startDate: document.getElementById('startDate').value,
+        endDate: document.getElementById('endDate').value
+    };
+
+    fetch('/add_pill', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(pillData)
+    }).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+        if (data.message) {
+            console.log('Pill added successfully');
+            addPillToList(pillData); // Call a function to update the DOM
+        } else {
+            // Handle errors
+            displayError(data.error);
+        }
+    }).catch(function(error) {
+        console.error('Error:', error);
     });
-</script>
+});
 
-</script>   
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            headerToolbar: {
-            start: 'dayGridMonth',
-            center: 'title',
-            end: 'prev,next'
-            },
-        });
-        calendar.render();
-        });
+function displayError(errorMessage) {
+    var modal = document.getElementById('errorModal');
+    var span = document.getElementsByClassName('close')[0];
+    var errorText = document.getElementById('errorMessage');
+
+    errorText.textContent = errorMessage;
+    modal.style.display = 'block';
+
+    span.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+}
 </script>
 {% endblock %}

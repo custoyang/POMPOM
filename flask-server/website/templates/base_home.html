@@ -201,7 +201,10 @@
             <div class="collapse navbar-collapse justify-content-center" id="navbar">
                 <div class="navbar-nav">
                     {% if user.is_authenticated %}
-                        <a class="nav-item nav-link" id="logout" href="/logout"><img style="width: 50px; margin-top: -20px; margin-bottom: 10px;" src="https://media.discordapp.net/attachments/1239019889541513317/1239427366900731975/person_1.png?ex=6642e22f&is=664190af&hm=b1a05bbbb01e0fbd1410345cb55c796ed1a242afe38428381bbc3e8b1bba71e1&=&format=webp&quality=lossless&width=1024&height=1024"></a>
+                        <div class="nav-item mb-2 d-flex flex-column align-items-center justify-content-center">
+                            <span class="nav-link disabled" style="font-size: 1.5rem; font-weight: bold; color:black">{{ current_day }}</span>
+                            <a class="nav-item nav-link" id="logout" href="/logout" style="font-weight: bold;">Logout</a>
+                        </div>
                     {% else %}
                         <a class="nav-item nav-link" id="login" href="/login">Login</a>
                         <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
