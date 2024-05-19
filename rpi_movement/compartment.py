@@ -1,5 +1,9 @@
 from gpiozero import Servo
 import time
+import sqlite3
+
+database_path = '/POMPOM/flask-server/instance/database.db'
+conn = sqlite3.connect(database_path)
 
 class Compartment:
     def __init__(self, pin, pillCount, pill, frequency, size):

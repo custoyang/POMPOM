@@ -20,7 +20,7 @@
                         {% endif %}
                     <br>
                     Taken {{ pill.frequency }}: {{ pill.dispense_time }} PDT
-                    <button type="pill-button" class="btn btn-secondary btn-sm" onclick="editPill({{ pill.id }})">Edit</button>
+                    <button type="pill-button" id='getPillButton' class="btn btn-secondary btn-sm" onclick="editPill({{ pill.id }})">Edit</button>
                 </li>
                 {% endfor %}
             </ul> 
@@ -143,7 +143,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="pillId">Compartment Number:</label>
-                                <select class="form-control" id="pillId" name="pillId">
+                                <select class="form-control" id="editpillId" name="pillId">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -154,7 +154,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="size">Pill Size:</label>
-                                <select class="form-control" id="size" name="size">
+                                <select class="form-control" id="editsize" name="size">
                                     <option value="S">S</option>
                                     <option value="M">M</option>
                                     <option value="L">L</option>
@@ -165,7 +165,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="amount">Amount:</label>
-                                <input type="number" class="form-control" id="amount" name="amount">
+                                <input type="number" class="form-control" id="editamount" name="amount">
                             </div>
                         </div>
                     </div>
@@ -173,13 +173,13 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="name">Name:</label>
-                                <input type="text" class="form-control" id="name" name="name">
+                                <input type="text" class="form-control" id="editname" name="name">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="altName">Alternate Name:</label>
-                                <input type="text" class="form-control" id="altName" name="altName">
+                                <input type="text" class="form-control" id="editaltName" name="altName">
                             </div>
                         </div>
                     </div>
@@ -187,13 +187,13 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="dispenseTime">Dispense Time:</label>
-                                <input type="time" class="form-control" id="dispenseTime" name="dispenseTime">
+                                <input type="time" class="form-control" id="editdispenseTime" name="dispenseTime">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="frequency">Frequency:</label>
-                                <select class="form-control" id="frequency" name="frequency">
+                                <select class="form-control" id="editfrequency" name="frequency">
                                     <option value="Daily">Daily</option>
                                     <option value="Weekly">Weekly</option>
                                     <option value="Biweekly">Biweekly</option>
@@ -206,21 +206,21 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="startDate">Start Date:</label>
-                                <input type="date" class="form-control" id="startDate" name="startDate">
+                                <input type="date" class="form-control" id="editstartDate" name="startDate">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="endDate">End Date:</label>
-                                <input type="date" class="form-control" id="endDate" name="endDate">
+                                <input type="date" class="form-control" id="editendDate" name="endDate">
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="background-color: #BD615B";>Delete Medication</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="submitPill">Save Changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="deletePill" style="background-color: #BD615B;">Delete Medication</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="updatePill">Save Changes</button>
             </div>
         </div>
     </div>
@@ -285,15 +285,15 @@
         
         console.log(pillData);
         // Populate the form fields in the "Edit Pill" modal with the retrieved pill data
-        document.getElementById('pillId').value = pillData.id;
-        document.getElementById('size').value = pillData.size;
-        document.getElementById('amount').value = pillData.amount;
-        document.getElementById('name').value = pillData.name;
-        document.getElementById('altName').value = pillData.alt_name;
-        document.getElementById('dispenseTime').value = pillData.dispense_time;
-        document.getElementById('frequency').value = pillData.frequency;
-        document.getElementById('startDate').value = pillData.start_date;
-        document.getElementById('endDate').value = pillData.end_date;
+        document.getElementById('editpillId').value = pillData.id;
+        document.getElementById('editsize').value = pillData.size;
+        document.getElementById('editamount').value = pillData.amount;
+        document.getElementById('editname').value = pillData.name;
+        document.getElementById('editaltName').value = pillData.alt_name;
+        document.getElementById('editdispenseTime').value = pillData.dispense_time;
+        document.getElementById('editfrequency').value = pillData.frequency;
+        document.getElementById('editstartDate').value = pillData.start_date;
+        document.getElementById('editendDate').value = pillData.end_date;
         
         // Open the "Edit Pill" modal
         $('#editPillModal').modal('show');
@@ -311,7 +311,7 @@ async function getPillDataById(pillId) {
             },
         });
         if (response.ok) {
-            const data = await response.json();
+            const data = response.json();
             console.log('Pill data retrieved successfully:', data);
             return data;
         } else {
@@ -322,28 +322,6 @@ async function getPillDataById(pillId) {
         throw error;
     }
 }
-
-    function addPillToList(pill) {
-        console.log("addPillToList called for:", pill.name);  // Debugging line to track function calls
-    
-        var list = document.getElementById('profiles');
-        var listItem = document.createElement('li');
-        listItem.className = 'list-group-item';
-        listItem.style.backgroundColor = "#E8EBE6";  // Setting background color via JavaScript
-        listItem.style.fontSize = '12px';  // Set font size to 12px or any other size you prefer
-        listItem.style.fontFamily = 'Montserrat';
-        var altNameDisplay = pill.altName ? `(${pill.altName})` : '';
-        listItem.innerHTML = `
-            <strong> ${pill.name} </strong>
-                ${altNameDisplay}
-            <br>
-                Taken ${pill.frequency}: ${pill.dispenseTime} PDT
-            `;
-            // <button type="button" class="close" onClick="deletePill(${pill.id})">
-                // <span aria-hidden="true">&times;</span>
-            // </button>
-        list.appendChild(listItem);
-    }
 
     document.getElementById('submitPill').addEventListener('click', function(event) {
         event.preventDefault(); // Prevent any default action triggered by clicking the submit button
@@ -370,9 +348,34 @@ async function getPillDataById(pillId) {
         }).then(function(data) {
             if (data.message) {
                 console.log('Pill added successfully');
-                addPillToList(pillData); // Call a function to update the DOM
+                location.reload();
             } else {
                 // Handle errors
+                displayError(data.error);
+            }
+        }).catch(function(error) {
+            console.error('Error:', error);
+        });
+    });
+
+    document.getElementById('deletePill').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent any default action triggered by clicking the submit button
+
+        var pillId = document.getElementById('editpillId').value
+
+        fetch('/delete_pill', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: pillId })
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            if (data.message) {
+                console.log('Pill deleted successfully');
+                location.reload();
+            } else {
                 displayError(data.error);
             }
         }).catch(function(error) {

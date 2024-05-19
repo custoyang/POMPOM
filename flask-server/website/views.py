@@ -17,8 +17,8 @@ def home():
 
 @views.route('/delete-pill', methods=['POST'])
 def delete_pill():  
-    pill = json.loads(request.data) # this function expects a JSON from the INDEX.js file 
-    pillId = pill['pillId']
+    pillId = json.loads(request.data)
+    print(pillId)
     pill = Pills.query.get(pillId)
     if pill:
         if pill.user_id == current_user.id:
@@ -70,8 +70,6 @@ def add_pill():
         return jsonify({'message': 'Pill added successfully'})
     else:
         return jsonify({'error': 'Invalid request method'})
-    
-from flask import request
 
 @views.route('/get_pill', methods=['GET'])
 def get_pill():
@@ -94,6 +92,7 @@ def get_pill():
                 'user_id': pill.user_id
             }
 
+            print(pill_data)
             return jsonify(pill_data)
         else:
             return jsonify({'error': 'Pill not found'})
