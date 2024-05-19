@@ -10,19 +10,19 @@
             Next Intake
             <img style="width: 50px; padding-left: 10px;" src="https://media.discordapp.net/attachments/1239019889541513317/1239428413522186360/medicine.png?ex=6642e329&is=664191a9&hm=9ff0ec17da06f0a046227155aa5030eac61f5f7a20a97dba03a2e6b598ca60f6&=&format=webp&quality=lossless&width=1024&height=1024">
         </div>
-       <div class="grid-item">
+        <div class="grid-item">
             <ul class="list-group list-group-flush" id="profiles">
                 {% for pill in user.pills %}
-                <li class="list-group-item">
+                <li class="list-group-item" style="background-color:#E8EBE6; font-size:14px";>
                     <strong> {{ pill.name }} </strong>
-                    {% if pill.alt_name %}
-                    ({{ pill.alt_name }})
-                    {% endif %}
+                        {% if pill.alt_name %}
+                            ({{ pill.alt_name }})
+                        {% endif %}
                     <br>
                     Taken {{ pill.frequency }}: {{ pill.dispense_time }} PDT
-                    <button type="button" class="close" onClick="deletePill({{ pill.id }})">
+                    <!-- <button type="button" class="close" onClick="deletePill(${pill.id})">
                         <span aria-hidden="true">&times;</span>
-                    </button>
+                    </button> -->
                 </li>
                 {% endfor %}
             </ul> 
@@ -36,7 +36,7 @@
     </div>
     
 
- <!-- Modal -->
+ <!-- Modal for adding a pill -->
  <div class="modal fade rounded-modal popup" id="addPillModal" tabindex="-1" role="dialog" aria-labelledby="addPillModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg rounded-modal" role="document">
         <div class="modal-content">
@@ -132,6 +132,11 @@
     </div>
 </div>
 
+ <!-- Modal for editing a pill -->
+
+ <!-- TBD -->
+
+ <!-- Modal for editing patient info -->
 <div class="modal fade rounded-modal popup" id="patientInfoModal" tabindex="-1" role="dialog" aria-labelledby="PatientInfoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg rounded-modal" role="document">
         <div class="modal-content">
@@ -183,71 +188,78 @@
 
 <script>
     function addPillToList(pill) {
-    var list = document.getElementById('profiles');
-    var listItem = document.createElement('li');
-    listItem.className = 'list-group-item';
-    listItem.innerHTML = `
-        <strong> ${pill.name} </strong><br>
-        Taken ${pill.frequency}: ${pill.dispenseTime} PDT
-        <button type="button" class="close" onClick="deletePill(${pill.id})">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    `;
-    list.appendChild(listItem);
-}
-
-document.getElementById('submitPill').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent any default action triggered by clicking the submit button
-
-    var pillData = {
-        size: document.getElementById('size').value,
-        amount: document.getElementById('amount').value,
-        name: document.getElementById('name').value,
-        altName: document.getElementById('altName').value,
-        dispenseTime: document.getElementById('dispenseTime').value,
-        frequency: document.getElementById('frequency').value,
-        startDate: document.getElementById('startDate').value,
-        endDate: document.getElementById('endDate').value
-    };
-
-    fetch('/add_pill', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(pillData)
-    }).then(function(response) {
-        return response.json();
-    }).then(function(data) {
-        if (data.message) {
-            console.log('Pill added successfully');
-            addPillToList(pillData); // Call a function to update the DOM
-        } else {
-            // Handle errors
-            displayError(data.error);
-        }
-    }).catch(function(error) {
-        console.error('Error:', error);
-    });
-});
-
-function displayError(errorMessage) {
-    var modal = document.getElementById('errorModal');
-    var span = document.getElementsByClassName('close')[0];
-    var errorText = document.getElementById('errorMessage');
-
-    errorText.textContent = errorMessage;
-    modal.style.display = 'block';
-
-    span.onclick = function() {
-        modal.style.display = 'none';
+        console.log("addPillToList called for:", pill.name);  // Debugging line to track function calls
+    
+        var list = document.getElementById('profiles');
+        var listItem = document.createElement('li');
+        listItem.className = 'list-group-item';
+        listItem.style.backgroundColor = "#E8EBE6";  // Setting background color via JavaScript
+        listItem.style.fontSize = '14px';  // Set font size to 12px or any other size you prefer
+        var altNameDisplay = pill.alt_name ? `(${pill.alt_name})` : '';
+        listItem.innerHTML = `
+            <strong> ${pill.name} </strong>
+                ${ altNameDisplay }
+            <br>
+                Taken ${pill.frequency}: ${pill.dispenseTime} PDT
+            `;
+            // <button type="button" class="close" onClick="deletePill(${pill.id})">
+                // <span aria-hidden="true">&times;</span>
+            // </button>
+        list.appendChild(listItem);
     }
 
-    window.onclick = function(event) {
-        if (event.target == modal) {
+    document.getElementById('submitPill').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent any default action triggered by clicking the submit button
+
+        var pillData = {
+            size: document.getElementById('size').value,
+            amount: document.getElementById('amount').value,
+            name: document.getElementById('name').value,
+            altName: document.getElementById('altName').value,
+            dispenseTime: document.getElementById('dispenseTime').value,
+            frequency: document.getElementById('frequency').value,
+            startDate: document.getElementById('startDate').value,
+            endDate: document.getElementById('endDate').value
+        };
+
+        fetch('/add_pill', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(pillData)
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            if (data.message) {
+                console.log('Pill added successfully');
+                addPillToList(pillData); // Call a function to update the DOM
+            } else {
+                // Handle errors
+                displayError(data.error);
+            }
+        }).catch(function(error) {
+            console.error('Error:', error);
+        });
+    });
+
+    function displayError(errorMessage) {
+        var modal = document.getElementById('errorModal');
+        var span = document.getElementsByClassName('close')[0];
+        var errorText = document.getElementById('errorMessage');
+
+        errorText.textContent = errorMessage;
+        modal.style.display = 'block';
+
+        span.onclick = function() {
             modal.style.display = 'none';
         }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
     }
-}
 </script>
 {% endblock %}

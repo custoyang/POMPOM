@@ -31,7 +31,11 @@ def delete_pill():
 @views.route('/add_pill', methods=['POST'])
 def add_pill():
     if request.method == 'POST':
-        existing_entries_count = Pills.query.filter_by(user_id=session.get('userId')).count()
+        # Fetch the current user ID from Flask-Login's current_user
+        user_id = current_user.id
+
+        # Count only the pills that belong to the current user
+        existing_entries_count = Pills.query.filter_by(user_id=user_id).count()
         if existing_entries_count >= 4:
             return jsonify({'error': 'Maximum number of pills reached.'})
         
@@ -44,7 +48,6 @@ def add_pill():
         frequency = data['frequency']
         start_date = datetime.strptime(data['startDate'], '%Y-%m-%d').date()
         end_date = datetime.strptime(data['endDate'], '%Y-%m-%d').date()
-        user_id = session.get('userId') # maggie note: modify this to be the same as the user primary key
 
         # Create a new instance of Pills model
         new_pill = Pills(
@@ -56,13 +59,13 @@ def add_pill():
             frequency=frequency,
             start_date=start_date,
             end_date=end_date,
-            user_id = user_id
+            user_id=user_id  # Use the fetched user ID
         )
 
         db.session.add(new_pill)
         db.session.commit()
 
-        print('Pill added successfully')
+        print('views Pill added successfully')
         
         return jsonify({'message': 'Pill added successfully'})
     else:
