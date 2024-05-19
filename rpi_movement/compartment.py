@@ -13,6 +13,13 @@ class Compartment:
         self.servo = Servo(self.pin)
         self.servo.value = None
     
+    def rotate_once(self):
+        self.servo.value = self.speed
+        time.sleep(self.delay)
+        self.servo.value = None
+        time.sleep(self.delay)
+
+    
     def calibration(self, new_size):
         low = 0.16
         med = 0.45
