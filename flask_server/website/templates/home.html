@@ -1,3 +1,4 @@
+
 {% extends "base_home.html" %} 
 {% block title %}Home{% endblock %} 
 {% block content %}
@@ -278,7 +279,7 @@
 </body>
 
 <script>
- async function editPill(pillId) {
+async function editPill(pillId) {
     try {
         // Retrieve the pill data associated with the clicked button
         var pillData = await getPillDataById(pillId); // You need to implement getPillDataById function
@@ -380,6 +381,32 @@ async function getPillDataById(pillId) {
             }
         }).catch(function(error) {
             console.error('Error:', error);
+        });
+    });
+
+    document.getElementById('deletePill').addEventListener('click', function(event) {
+        event.preventDefault();  // Prevent the default form submission behavior
+    
+        var pillId = document.getElementById('editpillId').value;  // Get the pill ID from a hidden input or other element in your modal
+    
+        fetch('/delete-pill', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: pillId })  // Send the pill ID as JSON
+        }).then(function(response) {
+            return response.json();  // Parse the JSON response
+        }).then(function(data) {
+            if (data.message) {
+                console.log(data.message);  // Log success message
+                location.reload();  // Reload the page to update the list of pills
+            } else {
+                displayError(data.error);  // Display error message if provided
+            }
+        }).catch(function(error) {
+            console.error('Error:', error);
+            displayError('Failed to delete pill');  // Display generic error message
         });
     });
 

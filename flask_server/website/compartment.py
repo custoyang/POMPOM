@@ -111,11 +111,6 @@ def check_and_dispense():
 
     # Zero out seconds (and microseconds for completeness)
     rounded_time = now.replace(second=0, microsecond=0)
-
-    # If now's seconds were 30 or more, add one minute to round up
-    if now.second >= 30:
-        rounded_time += timedelta(minutes=1)
-
     # Format to string with zeroed seconds
     current_time = rounded_time.strftime('%H:%M:%S')
     print(current_time)

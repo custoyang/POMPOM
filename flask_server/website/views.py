@@ -85,7 +85,7 @@ def get_pill():
                 'amount': pill.amount,
                 'name': pill.name,
                 'alt_name': pill.alt_name,
-                'dispense_time': pill.dispense_time.strftime('%H:%M') if pill.dispense_time else None,
+                'dispense_time': pill.dispense_time,
                 'frequency': pill.frequency,
                 'start_date': pill.start_date.strftime('%Y-%m-%d'),
                 'end_date': pill.end_date.strftime('%Y-%m-%d') if pill.end_date else None,
