@@ -1,5 +1,6 @@
 from gpiozero import Servo
 import time
+import servo_movement
 
 class Compartment:
     def __init__(self, pin, pillCount, pill, frequency, size):
@@ -12,6 +13,9 @@ class Compartment:
         self.speed = 0.025
         self.servo = Servo(self.pin)
         self.servo.value = None
+    
+    def rotate_once(self):
+        servo_movement.dispense_pill(self.pin)
     
     def calibration(self, new_size):
         low = 0.16
