@@ -16,9 +16,12 @@ class Compartment:
             self.frequency = pill.frequency # in hours
             self.size = pill.size
             self.delay = 2.7
-            self.speed = 0.025
+            self.speed = 0.075
             if self.pin == 12:
-                self.delay = 2
+                self.delay = 1.6
+                self.speed = 0.1125
+            if self.pin == 19:
+                self.delay = 1.5
                 self.speed = 0.1125
             self.servo = Servo(self.pin)
             self.servo.value = None
