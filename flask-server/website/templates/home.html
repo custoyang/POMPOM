@@ -13,20 +13,19 @@
         <div class="grid-item" style="display: flex; flex-direction: column;">
             <ul class="list-group list-group-flush" id="profiles">
                 {% for pill in user.pills %}
-                <li class="list-group-item" style="background-color:#E8EBE6; font-size:14px";>
-                    <div 
+                <li class="list-group-item" style="background-color:#E8EBE6; font-size:14px;">
                     <strong> {{ pill.name }} </strong>
                         {% if pill.alt_name %}
                             ({{ pill.alt_name }})
                         {% endif %}
                     <br>
                     Taken {{ pill.frequency }}: {{ pill.dispense_time }} PDT
-                    <button type="pill-button" class="btn btn-secondary btn-sm" onClick="editPill({{ pill.id }})">Edit</button>
+                    <button type="pill-button" class="btn btn-secondary btn-sm" onclick="editPill({{ pill.id }})">Edit</button>
                 </li>
                 {% endfor %}
             </ul> 
             <button type="add-button" class="btn btn-primary" data-toggle="modal" data-target="#addPillModal">Add Pill</button>
-        </div>
+        </div> 
         <div class="grid-item" id="calendar-container">
             <!-- <div id="calendar"></div> -->
             Calendar
@@ -132,7 +131,100 @@
 </div>
 
  <!-- Modal for editing a pill -->
-
+ <div class="modal fade rounded-modal popup" id="editPillModal" tabindex="-1" role="dialog" aria-labelledby="editPillModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg rounded-modal" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="editPillModalLabel">Edit Medication</h5>
+            </div>
+            <div class="modal-body">
+                <form id="editPillForm">
+                    <div class="row" style="padding: 0 20px 0 20px;">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="pillId">Compartment Number:</label>
+                                <select class="form-control" id="pillId" name="pillId">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="size">Pill Size:</label>
+                                <select class="form-control" id="size" name="size">
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="amount">Amount:</label>
+                                <input type="number" class="form-control" id="amount" name="amount">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 0 20px 0 20px;">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="altName">Alternate Name:</label>
+                                <input type="text" class="form-control" id="altName" name="altName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 0 20px 0 20px;">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="dispenseTime">Dispense Time:</label>
+                                <input type="time" class="form-control" id="dispenseTime" name="dispenseTime">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="frequency">Frequency:</label>
+                                <select class="form-control" id="frequency" name="frequency">
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Biweekly">Biweekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 0 20px 0 20px;">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="startDate">Start Date:</label>
+                                <input type="date" class="form-control" id="startDate" name="startDate">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="endDate">End Date:</label>
+                                <input type="date" class="form-control" id="endDate" name="endDate">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="background-color: #BD615B";>Delete Medication</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="submitPill">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
  <!-- TBD -->
 
  <!-- Modal for editing patient info -->
@@ -186,6 +278,51 @@
 </body>
 
 <script>
+ async function editPill(pillId) {
+    try {
+        // Retrieve the pill data associated with the clicked button
+        var pillData = await getPillDataById(pillId); // You need to implement getPillDataById function
+        
+        console.log(pillData);
+        // Populate the form fields in the "Edit Pill" modal with the retrieved pill data
+        document.getElementById('pillId').value = pillData.id;
+        document.getElementById('size').value = pillData.size;
+        document.getElementById('amount').value = pillData.amount;
+        document.getElementById('name').value = pillData.name;
+        document.getElementById('altName').value = pillData.alt_name;
+        document.getElementById('dispenseTime').value = pillData.dispense_time;
+        document.getElementById('frequency').value = pillData.frequency;
+        document.getElementById('startDate').value = pillData.start_date;
+        document.getElementById('endDate').value = pillData.end_date;
+        
+        // Open the "Edit Pill" modal
+        $('#editPillModal').modal('show');
+    } catch (error) {
+        console.error('Error editing pill:', error);
+    }
+}
+
+async function getPillDataById(pillId) {
+    try {
+        const response = await fetch(`/get_pill?id=${pillId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Pill data retrieved successfully:', data);
+            return data;
+        } else {
+            throw new Error('Failed to retrieve pill data');
+        }
+    } catch (error) {
+        console.error('Error fetching pill data:', error);
+        throw error;
+    }
+}
+
     function addPillToList(pill) {
         console.log("addPillToList called for:", pill.name);  // Debugging line to track function calls
     

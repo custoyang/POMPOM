@@ -70,3 +70,32 @@ def add_pill():
         return jsonify({'message': 'Pill added successfully'})
     else:
         return jsonify({'error': 'Invalid request method'})
+    
+from flask import request
+
+@views.route('/get_pill', methods=['GET'])
+def get_pill():
+    if request.method == 'GET':
+        pill_id = request.args.get('id')
+
+        pill = Pills.query.filter_by(id=pill_id).first()
+
+        if pill:
+            pill_data = {
+                'id': pill.id,
+                'size': pill.size,
+                'amount': pill.amount,
+                'name': pill.name,
+                'alt_name': pill.alt_name,
+                'dispense_time': pill.dispense_time.strftime('%H:%M') if pill.dispense_time else None,
+                'frequency': pill.frequency,
+                'start_date': pill.start_date.strftime('%Y-%m-%d'),
+                'end_date': pill.end_date.strftime('%Y-%m-%d') if pill.end_date else None,
+                'user_id': pill.user_id
+            }
+
+            return jsonify(pill_data)
+        else:
+            return jsonify({'error': 'Pill not found'})
+    else:
+        return jsonify({'error': 'Invalid request method'})
