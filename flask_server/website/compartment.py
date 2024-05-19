@@ -17,6 +17,9 @@ class Compartment:
             self.size = pill.size
             self.delay = 2.7
             self.speed = 0.025
+            if self.pin == 12:
+                self.delay = 2
+                self.speed = 0.1125
             self.servo = Servo(self.pin)
             self.servo.value = None
             self.rotated = False
@@ -85,10 +88,6 @@ class Compartment:
     def getPills(self):
         return self.pillCount
   
-  # Returns the channel of the motor in the compartment
-    def getChannel(self):
-        return self.channel
-    
     def setPin(compartment_id):
         if compartment_id == 1:
             return 12
