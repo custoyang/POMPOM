@@ -10,23 +10,22 @@
             Next Intake
             <img style="width: 50px; padding-left: 10px;" src="https://media.discordapp.net/attachments/1239019889541513317/1239428413522186360/medicine.png?ex=6642e329&is=664191a9&hm=9ff0ec17da06f0a046227155aa5030eac61f5f7a20a97dba03a2e6b598ca60f6&=&format=webp&quality=lossless&width=1024&height=1024">
         </div>
-        <div class="grid-item">
+        <div class="grid-item" style="display: flex; flex-direction: column;">
             <ul class="list-group list-group-flush" id="profiles">
                 {% for pill in user.pills %}
                 <li class="list-group-item" style="background-color:#E8EBE6; font-size:14px";>
+                    <div 
                     <strong> {{ pill.name }} </strong>
                         {% if pill.alt_name %}
                             ({{ pill.alt_name }})
                         {% endif %}
                     <br>
                     Taken {{ pill.frequency }}: {{ pill.dispense_time }} PDT
-                    <!-- <button type="button" class="close" onClick="deletePill(${pill.id})">
-                        <span aria-hidden="true">&times;</span>
-                    </button> -->
+                    <button type="pill-button" class="btn btn-secondary btn-sm" onClick="editPill({{ pill.id }})">Edit</button>
                 </li>
                 {% endfor %}
             </ul> 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPillModal">Add Pill</button>
+            <button type="add-button" class="btn btn-primary" data-toggle="modal" data-target="#addPillModal">Add Pill</button>
         </div>
         <div class="grid-item" id="calendar-container">
             <!-- <div id="calendar"></div> -->
@@ -194,11 +193,12 @@
         var listItem = document.createElement('li');
         listItem.className = 'list-group-item';
         listItem.style.backgroundColor = "#E8EBE6";  // Setting background color via JavaScript
-        listItem.style.fontSize = '14px';  // Set font size to 12px or any other size you prefer
-        var altNameDisplay = pill.alt_name ? `(${pill.alt_name})` : '';
+        listItem.style.fontSize = '12px';  // Set font size to 12px or any other size you prefer
+        listItem.style.fontFamily = 'Montserrat';
+        var altNameDisplay = pill.altName ? `(${pill.altName})` : '';
         listItem.innerHTML = `
             <strong> ${pill.name} </strong>
-                ${ altNameDisplay }
+                ${altNameDisplay}
             <br>
                 Taken ${pill.frequency}: ${pill.dispenseTime} PDT
             `;
