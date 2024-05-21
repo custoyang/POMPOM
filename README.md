@@ -30,10 +30,10 @@ pip install gpiozero
 | HTML       |[HTML Guideline](https://developer.mozilla.org/en-US/docs/MDN/Guidelines/Code_guidelines/HTML)      |       |
 
 ## 🎨 Features
-A strong feature in this web application is the ability to edit pill information, such as the specific compartment number, size, name, and time you would like the pills to be automatically dispensed. When the time comes, the motor will spin for that compartment, dropping the proper amount of pills needed.
+A strong feature in this web application is the ability to edit pill information, such as the specific compartment number, size, name, and time you would like the pills to be automatically dispensed. When the time comes, the motor will spin for that compartment, dropping the proper amount of pills needed. Another feature includes being able to view a user profile and calendar, which continuously updates based upon the built in time library.
 
 ## 🐾 Usage
-In order to run the web app via Flask, you must open ```flask_server/app.py```, running the web app on a local host port.
+In order to run the web app via Flask, you must open ```flask_server/main.py```, running the web app on a local host port.
 
 ## 🌏 Authors
 Custo Yang
