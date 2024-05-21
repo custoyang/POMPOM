@@ -144,7 +144,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="pillId">Compartment Number:</label>
-                                <select class="form-control" id="editpillId" name="pillId">
+                                <select disabled class="form-control" id="editpillId" name="pillId">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -328,6 +328,7 @@ async function getPillDataById(pillId) {
         event.preventDefault(); // Prevent any default action triggered by clicking the submit button
 
         var pillData = {
+            compartment: document.getElementById('pillId').value,
             size: document.getElementById('size').value,
             amount: document.getElementById('amount').value,
             name: document.getElementById('name').value,
@@ -348,7 +349,43 @@ async function getPillDataById(pillId) {
             return response.json();
         }).then(function(data) {
             if (data.message) {
-                console.log('Pill added successfully');
+                console.log('Pill edited successfully');
+                location.reload();
+            } else {
+                // Handle errors
+                displayError(data.error);
+            }
+        }).catch(function(error) {
+            console.error('Error:', error);
+        });
+    });
+
+    document.getElementById('updatePill').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent any default action triggered by clicking the submit button
+
+        var pillData = {
+            compartment: document.getElementById('editpillId').value,
+            size: document.getElementById('editsize').value,
+            amount: document.getElementById('editamount').value,
+            name: document.getElementById('editname').value,
+            altName: document.getElementById('editaltName').value,
+            dispenseTime: document.getElementById('editdispenseTime').value,
+            frequency: document.getElementById('editfrequency').value,
+            startDate: document.getElementById('editstartDate').value,
+            endDate: document.getElementById('editendDate').value
+        };
+
+        fetch('/update_pill', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(pillData)
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            if (data.message) {
+                console.log('Pill updated successfully');
                 location.reload();
             } else {
                 // Handle errors

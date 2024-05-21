@@ -9,7 +9,7 @@ import time
 class Compartment:
     def __init__(self, pill_id):
         with current_app.app_context():
-            pill = db.session.query(Pills).filter_by(id=pill_id).first()
+            pill = db.session.query(Pills).filter_by(compartment=pill_id).first()
             self.pin = self.setPin()
             self.pillCount = pill.amount
             self.pill = pill.name
@@ -120,7 +120,7 @@ def check_and_dispense():
     print(pills_to_dispense)
     # pills_to_dispense = db.session.query(Pills).filter_by(user_id=current_user.id, dispense_time=current_time).all()
     for pill in pills_to_dispense:
-        compartment = Compartment(pill.id)
+        compartment = Compartment(pill.compartment)
         if compartment.rotated == True:
             compartment.rotate_once()
         elif compartment.rotated == False:

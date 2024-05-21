@@ -40,6 +40,7 @@ def add_pill():
             return jsonify({'error': 'Maximum number of pills reached.'})
         
         data = request.json
+        pill_id = data['compartment']
         size = data['size']
         amount = data['amount']
         name = data['name']
@@ -51,6 +52,7 @@ def add_pill():
 
         # Create a new instance of Pills model
         new_pill = Pills(
+            compartment=pill_id,
             size=size,
             amount=amount,
             name=name,
@@ -70,6 +72,37 @@ def add_pill():
         return jsonify({'message': 'Pill added successfully'})
     else:
         return jsonify({'error': 'Invalid request method'})
+    
+
+# Route to handle form submission
+@views.route('/update_pill', methods=['POST'])
+def update_pill():
+    if request.method == 'POST':
+        # Fetch the current user ID from Flask-Login's current_user
+        user_id = current_user.id
+        
+        data = request.json
+        pill_id = data['compartment']
+        pill = Pills.query.filter_by(compartment=pill_id, user_id=user_id).first()
+
+        if pill:
+            pill.size = data['size']
+            pill.amount = data['amount']
+            pill.name = data['name']
+            pill.alt_name = data['altName']
+            pill.dispense_time = str(datetime.strptime(data['dispenseTime'], '%H:%M').time())
+            pill.frequency = data['frequency']
+            pill.start_date = datetime.strptime(data['startDate'], '%Y-%m-%d').date()
+            pill.end_date = datetime.strptime(data['endDate'], '%Y-%m-%d').date()
+
+            db.session.commit()
+
+        print('Pill updated successfully')
+        
+        return jsonify({'message': 'Pill updated successfully'})
+    else:
+        return jsonify({'error': 'Invalid request method'})
+
 
 @views.route('/get_pill', methods=['GET'])
 def get_pill():

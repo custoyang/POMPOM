@@ -4,6 +4,7 @@ from sqlalchemy.sql import func
 
 class Pills(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    compartment = db.Column(db.Integer)
     size = db.Column(db.String(2), nullable=False)
     amount = db.Column(db.Integer, nullable=False)
     name = db.Column(db.String(100), nullable=False)
