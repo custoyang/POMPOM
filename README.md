@@ -10,7 +10,7 @@
 - [Guidelines](#-guidelines)
 - [Features](#-features)
 - [Usage](#-usage)
-- [Acknowledgements](#-acknowledgements)
+- [Authors](#-authors)
 
 ## 🤖 Introduction
 POMPOM is a pill-organizing machine controlled by a web application, where users can view pill information on an LCD screen. Users should be able to control the time of pill dispensing and amount of pills dispensed with the web application as the administrator mode. When a pill is dispensed, the number of pills remaining in each compartment should be updated accordingly.
