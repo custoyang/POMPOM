@@ -1,9 +1,11 @@
 from flask import Blueprint, render_template, request, flash, jsonify, session
+from .compartment import Compartment
 from flask_login import login_required, current_user
 from datetime import datetime, time
 from .models import Pills
 from . import db
 import json
+
 
 views = Blueprint('views', __name__)
 
@@ -131,3 +133,28 @@ def get_pill():
             return jsonify({'error': 'Pill not found'})
     else:
         return jsonify({'error': 'Invalid request method'})
+    
+@views.route('/next_pill')
+@login_required
+def next_pill():
+    current_time = datetime.now().time().strftime('%H:%M')
+    user_id = current_user.id  # Get the current user's ID from Flask-Login
+    
+    next_pill = Pills.query.filter(
+        Pills.user_id == user_id,
+        Pills.dispense_time > current_time
+    ).order_by(Pills.dispense_time)#.first()
+
+    return render_template('home.html', next_pill=next_pill)
+
+@views.route('/dispense_pill', methods=['POST'])
+def dispense_pill():
+    pill_id = request.json.get('pillId')
+    pill = Pills.query.filter_by(id=pill_id).first()
+
+    if pill and current_user.id == pill.user_id:
+        compartment = Compartment(pill.compartment)
+        compartment.rotate_once()
+        return jsonify({'message': f'Pill {pill.name} dispensed successfully from compartment {pill.compartment}.'})
+    else:
+        return jsonify({'error': 'Pill not found or user not authorized'}), 404

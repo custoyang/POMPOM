@@ -8,8 +8,13 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#patientInfoModal">Edit Info</button>
         </div>
         <div class="grid-item">
-            Next Intake
-            <img style="width: 50px; padding-left: 10px;" src="https://media.discordapp.net/attachments/1239019889541513317/1239428413522186360/medicine.png?ex=6642e329&is=664191a9&hm=9ff0ec17da06f0a046227155aa5030eac61f5f7a20a97dba03a2e6b598ca60f6&=&format=webp&quality=lossless&width=1024&height=1024">
+            <strong>Next Intake</strong>
+            {% if next_pill %}
+                <p>Pill Name: {{ next_pill.name }}</p>
+                <p>Dispense Time: {{ next_pill.dispense_time }}</p>
+            {% else %}
+                <p>No more pills scheduled for today.</p>
+            {% endif %}
         </div>
         <div class="grid-item" style="display: flex; flex-direction: column;">
             <ul class="list-group list-group-flush" id="profiles">
@@ -22,6 +27,7 @@
                     <br>
                     Taken {{ pill.frequency }}: {{ pill.dispense_time }} PDT
                     <button type="pill-button" id='getPillButton' class="btn btn-secondary btn-sm" onclick="editPill({{ pill.id }})">Edit</button>
+                    <button type="pill-button" id='dispensePillButton' class="btn btn-secondary btn-sm" onclick="dispensePill({{ pill.id }})">Dispense</button>
                 </li>
                 {% endfor %}
             </ul> 
@@ -279,6 +285,30 @@
 </body>
 
 <script>
+    async function dispensePill(pillId) {
+        try {
+            const response = await fetch('/dispense_pill', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ pillId })
+            });
+            const data = await response.json();
+            if (response.ok) {
+                console.log('Pill dispensed successfully:', data.message);
+                alert('Pill dispensed successfully!');
+            } else {
+                console.error('Error dispensing pill:', data.error);
+                alert('Error dispensing pill: ' + data.error);
+            }
+        } catch (error) {
+            console.error('Network or server error:', error);
+            alert('Network or server error: ' + error.message);
+        }
+    }
+    
+    
 async function editPill(pillId) {
     try {
         // Retrieve the pill data associated with the clicked button
@@ -465,5 +495,29 @@ async function getPillDataById(pillId) {
             }
         }
     }
+
+    function refreshPillInfo() {
+        fetch('/next_pill')
+        .then(response => response.json())
+        .then(data => {
+            const nextPillContainer = document.querySelector('.grid-item');
+            if (data.next_pill) {
+                nextPillContainer.innerHTML = `
+                    <strong>Next Intake</strong>
+                    <p>Pill Name: ${data.next_pill.name}</p>
+                    <p>Dispense Time: ${data.next_pill.dispense_time}</p>
+                `;
+            } else {
+                nextPillContainer.innerHTML = `
+                    <strong>Next Intake</strong>
+                    <p>No more pills scheduled for today.</p>
+                `;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    
+    // Refresh the pill information every minute to check for updates
+    setInterval(refreshPillInfo, 30000);  // 60000 milliseconds = 1 minute
 </script>
 {% endblock %}
