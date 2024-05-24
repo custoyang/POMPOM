@@ -91,7 +91,7 @@ class Compartment:
     def getPills(self):
         return self.pillCount
   
-    def setPin(compartment_id):
+    def setPin(self, compartment_id):
         if compartment_id == 1:
             return 12
         elif compartment_id == 2:
