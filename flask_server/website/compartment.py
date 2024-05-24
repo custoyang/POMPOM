@@ -10,7 +10,7 @@ class Compartment:
     def __init__(self, pill_id):
         with current_app.app_context():
             pill = db.session.query(Pills).filter_by(compartment=pill_id).first()
-            self.pin = self.setPin()
+            self.pin = self.setPin(pill.compartment)
             self.pillCount = pill.amount
             self.pill = pill.name
             self.frequency = pill.frequency # in hours
@@ -128,7 +128,7 @@ def check_and_dispense():
         print(f"Dispensed pill from pin {compartment.pin}")
 
 def dispense():
-    
+
     compartment = Compartment(pill.compartment)
     if compartment.rotated == True:
         compartment.rotate_once()

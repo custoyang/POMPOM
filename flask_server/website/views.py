@@ -159,6 +159,7 @@ def dispense_pill():
 
     if pill and current_user.id == pill.user_id:
         compartment = Compartment(pill.compartment)
+        print(compartment.pin)
         compartment.rotate_once()
         return jsonify({'message': f'Pill {pill.name} dispensed successfully from compartment {pill.compartment}.'})
     else:
