@@ -10,24 +10,32 @@
 - [Guidelines](#-guidelines)
 - [Features](#-features)
 - [Usage](#-usage)
-- [Acknowledgements](#-acknowledgements)
+- [Authors](#-authors)
 
 ## 🤖 Introduction
-POMPOM is a pill-organizing machine controlled by a web application, where users can view pill information on an LCD screen. Users should be able to control the time of pill dispensing and amount of pills dispensed with the web application as the administrator mode. When a pill is dispensed, the number of pills remaining in each compartment should be updated accordingly, sending a notification to both devices.
+POMPOM is a pill-organizing machine controlled by a web application, where users can view pill information on an LCD screen. Users should be able to control the time of pill dispensing and amount of pills dispensed with the web application as the administrator mode. When a pill is dispensed, the number of pills remaining in each compartment should be updated accordingly.
 
 ## 📦 Module Installation
 pip install flask
 pip install flask-sqlalchemy
 pip install flask-login
+pip install gpiozero
 
 ## 🔧 Guidelines
-TBD
+| Language   | Guideline | Tools |
+|------------|-----------|-------|
+| Python     |[Python Guideline](https://peps.python.org/pep-0008/)           | [Flask](https://flask.palletsprojects.com/en/2.1.x/ )     |
+| JavaScript |[JavaScript Guideline](https://developer.mozilla.org/en-US/docs/MDN/Guidelines/Code_guidelines/JavaScript#general_javascript_guidelines)|       |
+| CSS        |[CSS Guideline](https://developer.mozilla.org/en-US/docs/MDN/Guidelines/Code_guidelines/CSS)      |       |
+| HTML       |[HTML Guideline](https://developer.mozilla.org/en-US/docs/MDN/Guidelines/Code_guidelines/HTML)      |       |
 
 ## 🎨 Features
-TBD
+A strong feature in this web application is the ability to edit pill information, such as the specific compartment number, size, name, and time you would like the pills to be automatically dispensed. When the time comes, the motor will spin for that compartment, dropping the proper amount of pills needed. Another feature includes being able to view a user profile and calendar, which continuously updates based upon the built in time library.
 
 ## 🐾 Usage
-TBD
+In order to run the web app via Flask, you must open ```flask_server/main.py```, running the web app on a local host port.
 
-## 🌏 Acknowledgements
-TBD
+## 🌏 Authors
+Custo Yang
+Lance Vu
+Maggie Zhang
