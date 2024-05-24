@@ -150,7 +150,10 @@ def next_pill():
 @views.route('/dispense_pill', methods=['POST'])
 def dispense_pill():
     pill_id = request.json.get('pillId')
+    print("====================THIS IS MY PILL ID:" + pill_id)
     pill = Pills.query.filter_by(id=pill_id).first()
+    print("====================THIS IS MY PILL:" + pill)
+    
 
     if pill and current_user.id == pill.user_id:
         compartment = Compartment(pill.compartment)

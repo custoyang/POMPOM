@@ -127,3 +127,11 @@ def check_and_dispense():
             compartment.calibration(pill.size)
         print(f"Dispensed pill from pin {compartment.pin}")
 
+def dispense():
+    
+    compartment = Compartment(pill.compartment)
+    if compartment.rotated == True:
+        compartment.rotate_once()
+    elif compartment.rotated == False:
+        compartment.calibration(pill.size)
+
